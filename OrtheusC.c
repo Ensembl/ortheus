@@ -3,6 +3,10 @@
  *
  * Released under the MIT license, see LICENSE.txt
  */
+
+// to enable getline from stdio.h
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
