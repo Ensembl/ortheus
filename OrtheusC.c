@@ -616,13 +616,12 @@ int main(int argc, char *argv[]) {
                 inputSequences = constructEmptyList(0, free);
                 stream = fopen(argv[++i], "r");
                 if (stream == NULL) {
-                    st_logInfo("Couldn't open file with input sequences '%s'\n", argv[i]);
+                    fprintf(stderr, "Couldn't open file with input sequences '%s'\n", argv[i]);
                     exit(1);
                 }
                 while (getline(&seqFile, &len, stream) != -1) {
                     // Remove trailing "\n" in seqFile
                     seqFile[strcspn(seqFile, "\n")] = 0;
-                    st_logInfo("Sequence file : %s\n", seqFile);
                     listAppend(inputSequences, seqFile);
                     // Set seqFile to NULL to allocate a new buffer
                     seqFile = NULL;
