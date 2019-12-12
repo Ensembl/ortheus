@@ -321,7 +321,7 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
     outputFile.write("struct CombinedTransitionModel *constructCombinedTransitionModel(float DX, float DZ, int64_t includeRoot, struct ParameterStruct *pS) {\n") 
     outputFile.write("\tstruct CombinedTransitionModel *temp = st_malloc(sizeof(struct CombinedTransitionModel));\n\n")
     
-    outputFile.write('\tst_logInfo("Building combined transition model, DX: %%f, DY %%f\\n", DX, DZ);\n')
+    outputFile.write('\tst_logInfo("Building combined transition model, DX: %f, DY %f\\n", DX, DZ);\n')
     
     #Are we including the root in these probs.
     outputFile.write("\ttemp->includeRoot = includeRoot;\n")
@@ -334,15 +334,15 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
     outputFile.write('\tint64_t i;\n\tint64_t j;\n')
     
     outputFile.write('\tfor(i=0; i<ALPHABET_SIZE; i++) {\n')
-    outputFile.write('\t\tst_logInfo("Stationary frequency %i value %%f \\n", i, temp->subModelX->stationaryDistribution[i]);\n\t}\n')
+    outputFile.write('\t\tst_logInfo("Stationary frequency %i value %f \\n", i, temp->subModelX->stationaryDistribution[i]);\n\t}\n')
     
     outputFile.write('\tfor(i=0; i<ALPHABET_SIZE; i++) {\n')
     outputFile.write('\t\tfor(j=0; j<ALPHABET_SIZE; j++) {\n')
-    outputFile.write('\t\t\tst_logInfo("Substitition probability (X Branch) %i %i, forward value %%f, backward value %%f\\n", i, j, temp->subModelX->forward[i*ALPHABET_SIZE + j], temp->subModelX->backward[i*ALPHABET_SIZE + j]);\n\t\t}\n\t}\n')
+    outputFile.write('\t\t\tst_logInfo("Substitition probability (X Branch) %i %i, forward value %f, backward value %f\\n", i, j, temp->subModelX->forward[i*ALPHABET_SIZE + j], temp->subModelX->backward[i*ALPHABET_SIZE + j]);\n\t\t}\n\t}\n')
     
     outputFile.write('\tfor(i=0; i<ALPHABET_SIZE; i++) {\n')
     outputFile.write('\t\tfor(j=0; j<ALPHABET_SIZE; j++) {\n')
-    outputFile.write('\t\t\tst_logInfo("Substitition probability (Z Branch) %i %i, forward value %%f, backward value %%f\\n", i, j, temp->subModelY->forward[i*ALPHABET_SIZE + j], temp->subModelY->backward[i*ALPHABET_SIZE + j]);\n\t\t}\n\t}\n')
+    outputFile.write('\t\t\tst_logInfo("Substitition probability (Z Branch) %i %i, forward value %f, backward value %f\\n", i, j, temp->subModelY->forward[i*ALPHABET_SIZE + j], temp->subModelY->backward[i*ALPHABET_SIZE + j]);\n\t\t}\n\t}\n')
      
     for parameterName, value in primaryParameterList:
         outputFile.write("\tfloat %s = pS->%s;\n" % (parameterName, parameterName))
