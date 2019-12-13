@@ -712,10 +712,10 @@ struct Constraints ***buildAllConstraints(struct hashtable **lessThanConstraints
                                                             int64_t seqNo, int64_t *seqLengths) {
     int64_t *temp;
     int64_t i;
-    int64_t j;
-    int64_t k;
+    //int64_t j;
+    //int64_t k;
     struct Constraints ***primeConstraintsMatrix;
-    struct Constraints *primeConstraints;
+    //struct Constraints *primeConstraints;
 
     temp = st_malloc(sizeof(int64_t)*seqNo);
     for(i=0; i<seqNo; i++) {
