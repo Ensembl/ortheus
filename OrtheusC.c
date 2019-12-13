@@ -329,6 +329,10 @@ struct List *parseSequences(struct List *inputSequences, int64_t *seqNo, int64_t
     for(i = 0; i < inputSequences->length; i++) {
         st_logInfo("Sequence file : %s\n", (char *)inputSequences->list[i]);
         fastaStream = fopen((char *)inputSequences->list[i], "r");
+        if (fastaStream == NULL) {
+            fprintf(stderr, "Couldn't open file with input sequences '%s'\n", (char *)inputSequences->list[i]);
+            exit(1);
+        }
         fastaRead(fastaStream, seqs, seqLengths, fastaNames);
         fclose(fastaStream);
     }
