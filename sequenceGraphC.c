@@ -2306,13 +2306,13 @@ void prepareGraphForAlignment(struct SequenceGraph *sequenceGraphX, struct Combi
     int64_t i;
     struct Edge *edge;
     struct SubModel *subModelX;
-    struct SubModel *subModelY;
+    //struct SubModel *subModelY;
 
     subModelX = model->subModelX;
-    subModelY = model->subModelY;
+    //subModelY = model->subModelY;
     if(flipped) {
         subModelX = model->subModelY;
-        subModelY = model->subModelX;
+        //subModelY = model->subModelX;
     }
     for(i=0; i<sequenceGraphX->edges->length; i++) {
         edge = sequenceGraphX->edges->list[i];
@@ -2808,13 +2808,13 @@ struct SequenceGraph *align_BottomUpScript(struct BinaryTree *binaryTree, struct
     struct BinaryTree *binaryTreeX;
     struct TraversalID *traversalIDX;
     //struct SubModel *subModelX;
-    char *nodeNameX;
+    //char *nodeNameX;
     struct SequenceGraph *sequenceGraphX;
 
     struct BinaryTree *binaryTreeY;
     struct TraversalID *traversalIDY;
     //struct SubModel *subModelY;
-    char *nodeNameY;
+    //char *nodeNameY;
     struct SequenceGraph *sequenceGraphY;
 
     int64_t leafSeqNoX;
@@ -2829,12 +2829,12 @@ struct SequenceGraph *align_BottomUpScript(struct BinaryTree *binaryTree, struct
         binaryTreeX = binaryTree->left;
         traversalIDX = binaryTreeX->traversalID;
         //subModelX = subModels[traversalIDX->mid];
-        nodeNameX = nodeNames[traversalIDX->mid];
+        //nodeNameX = nodeNames[traversalIDX->mid];
 
         binaryTreeY = binaryTree->right;
         traversalIDY = binaryTreeY->traversalID;
         //subModelY = subModels[traversalIDY->mid];
-        nodeNameY = nodeNames[traversalIDY->mid];
+        //nodeNameY = nodeNames[traversalIDY->mid];
 
         leafSeqNoX = *leafNo;
         sequenceGraphX = align_BottomUpScript(binaryTreeX, sequenceGraphs, constraints, nodeNames, //subModels,
