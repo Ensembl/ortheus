@@ -2,14 +2,14 @@
 
 #We specify parameters using lines starting with P or C
 #They must always be of the form [a-z][a-z0-9]* = non-log floating-point number
-#Parameters can be recursively defined. 
-#The parameter dX and dZ are the distance parameters, these are created by default, 
+#Parameters can be recursively defined.
+#The parameter dX and dZ are the distance parameters, these are created by default,
 #and must not be specified.
 #Parameters and calculations are assumed to not be in log-space, and are converted to log-space for
 #calculation by the script.
 
 O gO = 0.0025
-O gC = 0.7 
+O gC = 0.7
 
 P aX = gO*DX
 P bX = gO*DX

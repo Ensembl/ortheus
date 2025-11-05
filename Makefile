@@ -18,7 +18,7 @@ model = ${modelPath}/affineModel.sxpr
 paramModel = ${modelPath}/affineModel.param
  
 clean :
-	rm -f ${binPath}/ortheus_core model.otra xyzModelC.c xyzModelC.h
+	rm -f ${binPath}/ortheus_core ${modelPath}/model.otra xyzModelC.c xyzModelC.h
 	cd submodules/sonLib && ${MAKE} cP.clean
 
 ${binPath}/ortheus_core : *.c *.h xyzModelC.c xyzModelC.h ${basicLibsDependencies}
@@ -28,11 +28,11 @@ ${binPath}/ortheus_core : *.c *.h xyzModelC.c xyzModelC.h ${basicLibsDependencie
 # stdin from </dev/null works around stray stdin read on OS/X that hangs backgroud
 # jobs
 xyzModelC.c xyzModelC.h : ${model} ${paramModel} TransducerComposer.py TransducerCompiler.py
-	rm -f model.otra xyzModelC.c xyzModelC.h ${modelPath}/model.dot ${modelPath}/ortheusmodel.pdf
-	${PYTHON} TransducerComposer.py ${model} temp.otra ${modelPath}/model.dot ${collapseCoefficient} </dev/null
-	cat  ${paramModel} temp.otra > model.otra
-	rm temp.otra
-	${PYTHON} TransducerCompiler.py model.otra xyzModelC.c xyzModelC.h </dev/null
+	rm -f ${modelPath}/model.otra xyzModelC.c xyzModelC.h ${modelPath}/model.dot ${modelPath}/ortheusmodel.pdf
+	${PYTHON} TransducerComposer.py ${model} ${modelPath}/temp.otra ${modelPath}/model.dot ${collapseCoefficient} </dev/null
+	cat  ${paramModel} ${modelPath}/temp.otra > ${modelPath}/model.otra
+	rm ${modelPath}/temp.otra
+	${PYTHON} TransducerCompiler.py ${modelPath}/model.otra xyzModelC.c xyzModelC.h </dev/null
 	#Use this line if you want the pretty picture
 	#${makeGraph} ${modelPath}/model.dot -Tpdf > ${modelPath}/model.pdf
 

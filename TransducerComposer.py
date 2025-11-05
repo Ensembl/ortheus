@@ -147,7 +147,7 @@ def writeModel(states, transitions, outputFile):
     def fn(stateName):
         return stateName.replace('/', '')
     outputFile = open(outputFile, 'w', encoding='ascii')
-    outputFile.write("\n# States: %s Transitions: %s \n" % (len(states), len(transitions)))
+    outputFile.write("\n# States: %s Transitions: %s\n" % (len(states), len(transitions)))
     for state in sorted(states.keys()):
         outputFile.write("S %s = %s\n" % (fn(state), states[state]))
     for fS, tS in sorted(transitions.keys()):

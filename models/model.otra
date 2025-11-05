@@ -1,0 +1,137 @@
+#Parameters file for affineModel.sxpr
+
+#We specify parameters using lines starting with P or C
+#They must always be of the form [a-z][a-z0-9]* = non-log floating-point number
+#Parameters can be recursively defined.
+#The parameter dX and dZ are the distance parameters, these are created by default,
+#and must not be specified.
+#Parameters and calculations are assumed to not be in log-space, and are converted to log-space for
+#calculation by the script.
+
+O gO = 0.0025
+O gC = 0.7
+
+P aX = gO*DX
+P bX = gO*DX
+P gX = gC
+P dX = gC
+
+P maX = 1 - aX
+P mbX = 1 - bX
+P mgX = 1 - gX
+P mdX = 1 - dX
+
+P aZ = gO*DZ
+P bZ = gO*DZ
+P gZ = gC
+P dZ = gC
+
+P maZ = 1 - aZ
+P mbZ = 1 - bZ
+P mgZ = 1 - gZ
+P mdZ = 1 - dZ
+
+#If line starts with C it is a parameter related to the root.
+#These values are summed out after a round of alignment
+
+B e = 0.999
+C me = 1 - e
+
+
+#Specify the substitution model with a M line (currently only HKY supported)
+#Each of these submodels could have a different set of parameters, for now
+#the hky model is specified as follows:
+
+M HKY 0.3 0.2 0.2 0.3 2.0
+
+#Where the values after the HKY specifier are specific to the HKY function
+#In this case stationary frequencies of nucleotides A, C, G, T and then transition to
+#transversion ratio.
+
+# States: 12 Transitions: 74
+S D_1I_1D_1 = DELETE_XZ
+S D_1I_1M_1 = DELETE_X
+S E_0E_0E_0 = END
+S I_1I_0D_0 = INSERT_X
+S I_1I_0M_0 = INSERT_X
+S I_1S_0S_0 = INSERT_X
+S M_1I_1D_1 = DELETE_Z
+S M_1I_1M_1 = MATCH
+S S_0S_0S_0 = START
+S W_0I_0I_1 = INSERT_Z
+S W_0S_0I_1 = INSERT_Z
+S X_0I_0I_1 = INSERT_Z
+T D_1I_1D_1 --> D_1I_1D_1 = gX * gZ * e
+T D_1I_1D_1 --> D_1I_1M_1 = gX * mgZ*maZ * mbZ * e
+T D_1I_1D_1 --> E_0E_0E_0 = gX * gZ * me
+T D_1I_1D_1 --> I_1I_0D_0 = mgX*aX
+T D_1I_1D_1 --> M_1I_1D_1 = mgX*maX * gZ * mbX * e
+T D_1I_1D_1 --> M_1I_1M_1 = mgX*maX * mgZ*maZ * mbX * mbZ * e
+T D_1I_1D_1 --> W_0I_0I_1 = mgX*maX * mgZ*aZ
+T D_1I_1D_1 --> X_0I_0I_1 = gX * mgZ*aZ
+T D_1I_1M_1 --> D_1I_1D_1 = gX * maZ * bZ * e
+T D_1I_1M_1 --> D_1I_1M_1 = gX * maZ * mbZ * e
+T D_1I_1M_1 --> E_0E_0E_0 = gX * maZ * me
+T D_1I_1M_1 --> I_1I_0M_0 = mgX*aX
+T D_1I_1M_1 --> M_1I_1D_1 = mgX*maX * maZ * mbX * bZ * e
+T D_1I_1M_1 --> M_1I_1M_1 = mgX*maX * maZ * mbX * mbZ * e
+T D_1I_1M_1 --> W_0I_0I_1 = mgX*maX * aZ
+T D_1I_1M_1 --> X_0I_0I_1 = gX * aZ
+T I_1I_0D_0 --> D_1I_1D_1 = mdX * gZ * bX * e
+T I_1I_0D_0 --> D_1I_1M_1 = mdX * mgZ*maZ * bX * mbZ * e
+T I_1I_0D_0 --> E_0E_0E_0 = mdX * gZ * me
+T I_1I_0D_0 --> I_1I_0D_0 = dX
+T I_1I_0D_0 --> M_1I_1D_1 = mdX * gZ * mbX * e
+T I_1I_0D_0 --> M_1I_1M_1 = mdX * mgZ*maZ * mbX * mbZ * e
+T I_1I_0D_0 --> W_0I_0I_1 = mdX * mgZ*aZ
+T I_1I_0M_0 --> D_1I_1D_1 = mdX * maZ * bX * bZ * e
+T I_1I_0M_0 --> D_1I_1M_1 = mdX * maZ * bX * mbZ * e
+T I_1I_0M_0 --> E_0E_0E_0 = mdX * maZ * me
+T I_1I_0M_0 --> I_1I_0M_0 = dX
+T I_1I_0M_0 --> M_1I_1D_1 = mdX * maZ * mbX * bZ * e
+T I_1I_0M_0 --> M_1I_1M_1 = mdX * maZ * mbX * mbZ * e
+T I_1I_0M_0 --> W_0I_0I_1 = mdX * aZ
+T I_1S_0S_0 --> D_1I_1D_1 = mdX * maZ * bX * bZ * e
+T I_1S_0S_0 --> D_1I_1M_1 = mdX * maZ * bX * mbZ * e
+T I_1S_0S_0 --> E_0E_0E_0 = mdX * maZ * me
+T I_1S_0S_0 --> I_1S_0S_0 = dX
+T I_1S_0S_0 --> M_1I_1D_1 = mdX * maZ * mbX * bZ * e
+T I_1S_0S_0 --> M_1I_1M_1 = mdX * maZ * mbX * mbZ * e
+T I_1S_0S_0 --> W_0S_0I_1 = mdX * aZ
+T M_1I_1D_1 --> D_1I_1D_1 = maX * gZ * bX * e
+T M_1I_1D_1 --> D_1I_1M_1 = maX * mgZ*maZ * bX * mbZ * e
+T M_1I_1D_1 --> E_0E_0E_0 = maX * gZ * me
+T M_1I_1D_1 --> I_1I_0D_0 = aX
+T M_1I_1D_1 --> M_1I_1D_1 = maX * gZ * mbX * e
+T M_1I_1D_1 --> M_1I_1M_1 = maX * mgZ*maZ * mbX * mbZ * e
+T M_1I_1D_1 --> W_0I_0I_1 = maX * mgZ*aZ
+T M_1I_1M_1 --> D_1I_1D_1 = maX * maZ * bX * bZ * e
+T M_1I_1M_1 --> D_1I_1M_1 = maX * maZ * bX * mbZ * e
+T M_1I_1M_1 --> E_0E_0E_0 = maX * maZ * me
+T M_1I_1M_1 --> I_1I_0M_0 = aX
+T M_1I_1M_1 --> M_1I_1D_1 = maX * maZ * mbX * bZ * e
+T M_1I_1M_1 --> M_1I_1M_1 = maX * maZ * mbX * mbZ * e
+T M_1I_1M_1 --> W_0I_0I_1 = maX * aZ
+T S_0S_0S_0 --> D_1I_1D_1 = maX * maZ * bX * bZ * e
+T S_0S_0S_0 --> D_1I_1M_1 = maX * maZ * bX * mbZ * e
+T S_0S_0S_0 --> E_0E_0E_0 = maX * maZ * me
+T S_0S_0S_0 --> I_1S_0S_0 = aX
+T S_0S_0S_0 --> M_1I_1D_1 = maX * maZ * mbX * bZ * e
+T S_0S_0S_0 --> M_1I_1M_1 = maX * maZ * mbX * mbZ * e
+T S_0S_0S_0 --> W_0S_0I_1 = maX * aZ
+T W_0I_0I_1 --> D_1I_1D_1 = mdZ * bX * bZ * e
+T W_0I_0I_1 --> D_1I_1M_1 = mdZ * bX * mbZ * e
+T W_0I_0I_1 --> E_0E_0E_0 = mdZ * me
+T W_0I_0I_1 --> M_1I_1D_1 = mdZ * mbX * bZ * e
+T W_0I_0I_1 --> M_1I_1M_1 = mdZ * mbX * mbZ * e
+T W_0I_0I_1 --> W_0I_0I_1 = dZ
+T W_0S_0I_1 --> D_1I_1D_1 = mdZ * bX * bZ * e
+T W_0S_0I_1 --> D_1I_1M_1 = mdZ * bX * mbZ * e
+T W_0S_0I_1 --> E_0E_0E_0 = mdZ * me
+T W_0S_0I_1 --> M_1I_1D_1 = mdZ * mbX * bZ * e
+T W_0S_0I_1 --> M_1I_1M_1 = mdZ * mbX * mbZ * e
+T W_0S_0I_1 --> W_0S_0I_1 = dZ
+T X_0I_0I_1 --> D_1I_1D_1 = mdZ * bZ * e
+T X_0I_0I_1 --> D_1I_1M_1 = mdZ * mbZ * e
+T X_0I_0I_1 --> E_0E_0E_0 = mdZ * me
+T X_0I_0I_1 --> X_0I_0I_1 = dZ

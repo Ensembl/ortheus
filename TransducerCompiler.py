@@ -238,6 +238,14 @@ def writeHModel(outputFile, primaryParameterList, parameterList, cParameters, fo
     """
     outputFile = open(outputFile, 'w', encoding='ascii')
     
+    #Write license
+    outputFile.write("/*\n")
+    outputFile.write(" * Copyright (C) 2008-2011 by Benedict Paten (benedictpaten@gmail.com)\n")
+    outputFile.write(" *\n")
+    outputFile.write(" * Released under the MIT license, see LICENSE.txt\n")
+    outputFile.write(" */\n")
+    outputFile.write("\n")
+
     #Write header lines
     outputFile.write("#ifndef XYZMODELC_H_\n")
     outputFile.write("#define XYZMODELC_H_\n\n")
@@ -285,6 +293,14 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
     """
     outputFile = open(outputFile, 'w', encoding='ascii')
     
+    #Write license
+    outputFile.write("/*\n")
+    outputFile.write(" * Copyright (C) 2008-2011 by Benedict Paten (benedictpaten@gmail.com)\n")
+    outputFile.write(" *\n")
+    outputFile.write(" * Released under the MIT license, see LICENSE.txt\n")
+    outputFile.write(" */\n")
+    outputFile.write("\n")
+
     #Write header lines
     outputFile.write("#include <stdio.h>\n")
     outputFile.write("#include <assert.h>\n")
@@ -316,7 +332,7 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
         outputFile.write("inline int64_t is%s(int64_t state) {\n" % functionName)
         for state in forwardModel.getStateNames(stateType):
             outputFile.write("\tif(state == %s) return TRUE;\n" % state)
-        outputFile.write("\treturn FALSE; \n}\n\n")
+        outputFile.write("\treturn FALSE;\n}\n\n")
     
     outputFile.write("struct CombinedTransitionModel *constructCombinedTransitionModel(float DX, float DZ, int64_t includeRoot, struct ParameterStruct *pS) {\n") 
     outputFile.write("\tstruct CombinedTransitionModel *temp = st_malloc(sizeof(struct CombinedTransitionModel));\n\n")
@@ -408,7 +424,7 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
         for toState in silentModel.getStateNames():
             outputFile.write("\ttemp->lt%s_%s = LOG(fA[%s]);\n" % (fromState, toState, toState))
             outputFile.write('\tst_logInfo("From state %s, To state %s, LOOP PARAMETER %%f \\n", temp->lt%s_%s);\n' % (fromState, toState, fromState, toState))
-    outputFile.write("\treturn temp; \n}\n\n")
+    outputFile.write("\treturn temp;\n}\n\n")
     
     l = [ (INSERT_X, "insertX"), (INSERT_Z, "insertY"), (DELETE_X, "deleteX"), (DELETE_Z, "deleteY") ]
     for stateType, functionName in l:
@@ -542,7 +558,7 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
     for toState in sorted(forwardModel.getTransitionsFrom(startState).keys()):
         if forwardModel.getStateType(toState) != END:
             outputFile.write("\ti[%s] = model->ft%s_%s;\n" % (toState, startState, toState))
-    outputFile.write("\treturn i; \n}\n\n")
+    outputFile.write("\treturn i;\n}\n\n")
     
     #End states
     outputFile.write("float *endStates(struct CombinedTransitionModel *model) {\n")
@@ -554,7 +570,7 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
     for fromState in sorted(forwardModel.getTransitionsTo(endState).keys()):
         if forwardModel.getStateType(fromState) != START:
             outputFile.write("\ti[%s] = model->ft%s_%s;\n" % (fromState, fromState, endState))
-    outputFile.write("\treturn i; \n}\n\n")
+    outputFile.write("\treturn i;\n}\n\n")
     
     #Paramaeter struct constructor
     outputFile.write("struct ParameterStruct *constructParamStruct(int argc, char *argv[]) {\n")
@@ -574,7 +590,7 @@ def writeCModel(outputFile, primaryParameterList, parameterList, cParameters, fo
         outputFile.write('\t\t\t\tsscanf(argv[++i], "%f", &floatParser);\n')
         outputFile.write("\t\t\t\tpM->%s = floatParser;\n\t\t\tbreak;\n" % parameterName)
     outputFile.write("\t\t}\n\t}\n")
-    outputFile.write("\treturn pM; \n}\n\n")
+    outputFile.write("\treturn pM;\n}\n\n")
     
     #Parameter struct destructor.
     outputFile.write("void destructParamStruct(struct ParameterStruct *pM) {\n\tfree(pM);\n}\n\n")
