@@ -4,6 +4,9 @@ libPath=${rootPath}lib
 sonLibRootPath=${rootPath}/submodules/sonLib
 sonLibPath=${sonLibRootPath}/lib
 
+#Modify this variable to set the location of test data
+export SON_TRACE_DATASETS := ${PWD}/cactusTestData
+
 include  ${sonLibRootPath}/include.mk
 
 cflags += -I ${sonLibPath}

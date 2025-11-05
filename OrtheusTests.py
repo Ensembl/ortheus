@@ -10,6 +10,7 @@
 from importlib.resources import files
 import os
 import random
+import shutil
 import sys
 
 import unittest
@@ -30,10 +31,21 @@ from sonLib.bioio import parseSuiteTestOptions
 
 class TestCase(unittest.TestCase):
     
+    @classmethod
+    def setUpClass(cls):
+        ortheusDataPath = os.path.join(TestStatus.getPathToDataSets(), "ortheus")
+        os.makedirs(ortheusDataPath, exist_ok=True)
+
+    @classmethod
+    def tearDownClass(cls):
+        ortheusDataPath = os.path.join(TestStatus.getPathToDataSets(), "ortheus")
+        shutil.rmtree(ortheusDataPath)
+
     def setUp(self):
         self.testNo = TestStatus.getTestSetup()
         self.tempFiles = []
         unittest.TestCase.setUp(self)
+        self.datasetRootPath = TestStatus.getPathToDataSets()
     
     def tearDown(self):
         for tempFile in self.tempFiles:
@@ -42,34 +54,36 @@ class TestCase(unittest.TestCase):
         
     def testENm001(self):
         if TestStatus.getTestLength() == TestStatus.TEST_VERY_LONG:
-            encodePath = TestStatus.getPathToDataSets() + "/MAY-2005/ENm001"
-            outputPath = TestStatus.getPathToDataSets() + "/ortheus/encodeTest"
+            encodePath = os.path.join(self.datasetRootPath, "MAY-2005", "ENm001")
+            outputPath = os.path.join(self.datasetRootPath, "ortheus", "encodeTest")
             #treeString = '(((((((((((((human:0.006969,chimp:0.009727):0.025291,((baboon:0.008968):0.011019):0.024581):0.023649):0.066673):0.018405,((rat:0.081244,mouse:0.072818):0.238435):0.021892):0.02326,(((cow:0.164728,(cat:0.109852,dog:0.107805):0.049576):0.004663):0.010883):0.033242):0.028346):0.016015):0.226853):0.063898):0.126639):0.119814):0.16696);'
-            treeString = '((((human:0.006969,chimp:0.009727):0.025291,baboon:0.044568):0.108727,(rat:0.081244,mouse:0.072818):0.260327):0.02326,(cow:0.164728,(cat:0.109852,dog:0.107805):0.049576):0.048788):0.749525;'
-            seqFiles = [ "human.ENm001.fa", "chimp.ENm001.fa", "baboon.ENm001.fa", "rat.ENm001.fa", "mouse.ENm001.fa", "cow.ENm001.fa", "cat.ENm001.fa", "dog.ENm001.fa" ]
+            treeString = '((((human:0.006969,chimp:0.009727):0.025291,baboon:0.044568):0.108727,(rat:0.081244,mouse:0.072818):0.260327):0.02326,(cow:0.164728,dog:0.157381):0.048788):0.749525;'
+            seqFiles = [ "human.ENm001.fa", "chimp.ENm001.fa", "baboon.ENm001.fa", "rat.ENm001.fa", "mouse.ENm001.fa", "cow.ENm001.fa", "dog.ENm001.fa" ]
             seqFiles = [ encodePath + "/" + i for i in seqFiles ]
             outputFile = outputPath + "/outputENm001.mfa"
             command = "Ortheus.py -e %s -d '%s' -f %s -j -a -b" % \
             (" ".join(seqFiles), treeString, outputFile)
+            os.makedirs(outputPath, exist_ok=True)
             print("running command", command)
             system(command)
         
     def testSimulation(self):
         if TestStatus.getTestLength() == TestStatus.TEST_LONG:
-            blanchettePath = TestStatus.getPathToDataSets() + "/blanchettesSimulation/00.job"
-            outputPath = TestStatus.getPathToDataSets() + "/ortheus/blanchettesSimulationTest"
+            blanchettePath = os.path.join(self.datasetRootPath, "blanchettesSimulation", "00.job")
+            outputPath = os.path.join(self.datasetRootPath, "ortheus", "blanchettesSimulationTest")
             treeString = '(((((((((((((human:0.006969,chimp:0.009727):0.025291,((baboon:0.008968):0.011019):0.024581):0.023649):0.066673):0.018405,((rat:0.081244,mouse:0.072818):0.238435):0.021892):0.02326,(((cow:0.164728,(cat:0.109852,dog:0.107805):0.049576):0.004663):0.010883):0.033242):0.028346):0.016015):0.226853):0.063898):0.126639):0.119814):0.16696);'
             seqFiles = [ "HUMAN", "CHIMP", "BABOON", "RAT", "MOUSE", "COW", "CAT", "DOG" ]
             seqFiles = [ blanchettePath + "/" + i for i in seqFiles ]
             outputFile = outputPath + "/outputJob1.mfa"
             command = "Ortheus.py -e %s -d '%s' -f %s -j -a -b" % \
             (" ".join(seqFiles), treeString, outputFile)
+            os.makedirs(outputPath, exist_ok=True)
             print("running command", command)
             system(command)
             
     def testAndyYatesFirstExample(self):
         if TestStatus.getTestLength() == TestStatus.TEST_LONG:
-            filePath = TestStatus.getPathToDataSets() + "/ortheus/andyYatesExample1"
+            filePath = os.path.join(self.datasetRootPath, "ortheus", "andyYatesExample1")
             seqs = "seq1.fa seq2.fa seq3.fa seq4.fa seq5.fa seq6.fa seq7.fa seq8.fa seq9.fa seq10.fa seq11.fa \
             seq12.fa seq13.fa seq14.fa seq15.fa seq16.fa seq17.fa seq18.fa seq19.fa seq20.fa seq21.fa seq22.fa seq23.fa seq24.fa seq25.fa seq26.fa \
             seq27.fa seq28.fa seq29.fa seq30.fa seq31.fa seq32.fa seq33.fa seq34.fa seq35.fa seq36.fa"
@@ -79,6 +93,7 @@ class TestCase(unittest.TestCase):
             -A 1054 1051 1054 1054 1053 1012 1054 1054 1053 1054 1051 1054 1051 1051 1053 1051 1051 1012 1051 1054 1012 1054 1053 1051 1053 \
             1054 1054 1051 1012 1012 1054 1053 1053 1012 1054 1051 -f %s/output.16163.mfa -g %s/output.16163.tree-a -k "# -A" -m "java -Xmx1800m -Xms1800m" -a -b' % \
             (seqs, filePath, filePath)
+            os.makedirs(filePath, exist_ok=True)
             print("running command", command)
             system(command)
         

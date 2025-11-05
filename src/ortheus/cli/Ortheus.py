@@ -106,7 +106,11 @@ def printMods(alignerArgs, indices):
     return indices[7:]
 
 def empiricallyEstimateNucleotideFrequencies(seqFiles):
-    return normaliseWV(sumWVA([ calculateCharacterFrequencies(fastaRead(seqFile), dNAMap_IUPACToInt, 4) for seqFile in seqFiles ], 4))
+    unambigNucFreqDistributions = []
+    for seqFile in seqFiles:
+        ambigNucFreqDistribution = calculateCharacterFrequencies(fastaRead(seqFile), dNAMap_IUPACToInt, 5)
+        unambigNucFreqDistributions.append(ambigNucFreqDistribution[:4])
+    return normaliseWV(sumWVA(unambigNucFreqDistributions, 4))
 
 def main():
     sys.stderr.write("Arguments received : %s \n" % "_".join(sys.argv))

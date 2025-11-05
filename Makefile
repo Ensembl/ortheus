@@ -42,3 +42,7 @@ ${basicLibsDependencies} :
 test :
 	#Running python allTests.py
 	${PYTHON} allTests.py --testLength=SHORT --logDebug
+
+test-very-long :
+	git -C ${SON_TRACE_DATASETS} status -s || git clone https://github.com/UCSantaCruzComputationalGenomicsLab/cactusTestData.git ${SON_TRACE_DATASETS}
+	${PYTHON} allTests.py --testLength=VERY_LONG --logDebug
