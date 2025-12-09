@@ -15,6 +15,7 @@ The main new features are:
   of passing the Newick tree itself as a command-line argument
 * new `-F` option to refer to a file that contains the paths of the Fasta
   files to align, instead of passing these as command-line arguments.
+* update of Python minimum version to v3.10
 
 Significant bugs that are now fixed are:
 * wrong branch lengths when rerooting the tree
