@@ -10,8 +10,6 @@ Ensembl is **not** the official maintainer of this software.
 Pull-requests can still be submitted, but we will only accept them if they
 can provide a benefit to Ensembl.
 
-You can find more documentation on the UCSC page: (http://hgwdev.cse.ucsc.edu/~benedict/code/Ortheus.html)
-
 The main new features are:
 * new `-T` option to refer to a file that contains the Newick tree, instead
   of passing the Newick tree itself as a command-line argument
