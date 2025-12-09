@@ -24,12 +24,12 @@ Significant bugs that are now fixed are:
 
 ## Branches and tags
 
-There is a single branch (master) where all the development goes.
+There is a single branch (main) where all the development goes.
 The version number stated in the source code (0.5.0) is not maintained.
 
 `ensembl_production_XX` tags are used to refer to the version used for the
 production of Ensembl version XX. Due to deployment constraints, these tags
-may not include the latest changes of the master branch.
+may not include the latest changes of the main branch.
 Instead, we provide `ensembl_release_candidate_Y` tags, Y starting from 1, for
 the "next" version we will deploy in production.
 
