@@ -4,3 +4,4 @@ lib/*
 bin/*
 /bin
 /lib
+/src/ortheus/bin/ortheus_core
